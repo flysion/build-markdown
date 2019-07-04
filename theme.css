@@ -1,0 +1,46 @@
+*{
+    font-family:"微软雅黑",
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width:100%;
+}
+
+th {
+    background-color:#333;
+    color:white;
+    font-weight:700;
+}
+
+th, td {
+    padding:5px;
+    border:1px solid #000;
+}
+
+h2 {
+    border-bottom:2px solid #000;
+    padding-bottom:5px;
+}
+
+pre { 
+    background-color:#EFEFEF; 
+    padding:10px;
+    border:1px solid #ECECEC;
+    font-family: Consolas;
+}
+
+pre code {
+    background-color:transparent;
+}
+
+code {
+    background-color: #EFEFEF;
+    border-radius: 3px;
+    padding: 2px;
+}
+
+a {
+    text-decoration: none;
+}
