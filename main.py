@@ -24,7 +24,7 @@ def usage():
     print("     --header          : 在正文之前（<body>标签后边）加入html内容")
     print("     --footer          : 在正文之后（</body>标签前边）加入html内容")
     print("     --image-base64    : 将图片转换成base64")
-    print("     --index-max-depth : 将h1...h9标签编排成树状索引显示在页面的右侧，设置索引的最大深度，默认为 0，不启用索引")
+    print("     --index-max-depth : 将h1...h9标签编排成树状索引显示在页面的右侧，设置索引的最大深度，默认为0（不启用索引）")
     print(" -D foo=bar            : 定义变量，替换markdown文档中的“%foo%”字样")
     print(" arg                   : 要转换的markdown文件")
     
