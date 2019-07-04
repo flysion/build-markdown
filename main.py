@@ -3,6 +3,8 @@
 pip install makedown
 pip install pillow
 pip install requests
+
+markdown document: https://python-markdown.github.io/
 """
 import os,sys
 import re
@@ -15,15 +17,16 @@ import requests
 
 def usage():
     print(f"using: python {sys.argv[0]} [options] [arg]")
-    print(" -h, --help         : 显示使用帮助")
-    print(" -t, --title        : 生成的HTML文档的title")
-    print(" -o, --output       : 生成的HTML文档的保存位置")
-    print("     --theme        : 生成的HTML文档额外的CSS样式")
-    print("     --header       : 在正文之前（<body>标签后边）加入html内容")
-    print("     --footer       : 在正文之后（</body>标签前边）加入html内容")
-    print("     --image-base64 : 将图片转换成base64")
-    print(" -D foo=bar         : 定义变量，替换markdown文档中的“%foo%”字样")
-    print(" arg                : 要转换的markdown文件")
+    print(" -h, --help            : 显示使用帮助")
+    print(" -t, --title           : 生成的HTML文档的title")
+    print(" -o, --output          : 生成的HTML文档的保存位置")
+    print("     --theme           : 生成的HTML文档额外的CSS样式")
+    print("     --header          : 在正文之前（<body>标签后边）加入html内容")
+    print("     --footer          : 在正文之后（</body>标签前边）加入html内容")
+    print("     --image-base64    : 将图片转换成base64")
+    print("     --index-max-depth : 将h1...h9标签编排成树状索引显示在页面的右侧，设置索引的最大深度，默认为 0，不启用索引")
+    print(" -D foo=bar            : 定义变量，替换markdown文档中的“%foo%”字样")
+    print(" arg                   : 要转换的markdown文件")
     
 def download_image(url):
     resp = requests.get(url)
@@ -47,9 +50,10 @@ OPTIONS = {
     "enable_image_base64": False,
     "header": "",
     "footer": "",
+    "index_max_depth": 0,
 }
 
-opts, args = getopt.getopt(sys.argv[1:], "hD:t:o:", ["help", "title=", "output=", "theme=", "theme=", "header=", "footer=", "image-base64"])
+opts, args = getopt.getopt(sys.argv[1:], "hD:t:o:", ["help", "title=", "output=", "theme=", "theme=", "header=", "footer=", "image-base64", "index-max-depth="])
 if len(args) == 0:
     usage() ; quit()
     
@@ -69,6 +73,8 @@ for k,v in opts:
         OPTIONS['footer'] = v
     elif k == '--image-base64':
         OPTIONS['enable_image_base64'] = True
+    elif k == '--index-max-depth':
+        OPTIONS['index_max_depth'] = int(v);
     elif k == '--help' or k == '-h':
         usage() ; quit()
 
@@ -91,11 +97,11 @@ for varname in OPTIONS['variables']:
 with open(OPTIONS['theme'], 'r') as f:
     theme_text = re.sub("\s*[\r\n]\s*", "", f.read())
 
-with open(f"{SCRIPT_DIR}/jquery-3.3.1.min.js", 'r') as f:
-    jquery_text = re.sub("\s*[\r\n]\s*", "", f.read())
-
-with open(f"{SCRIPT_DIR}/common.js", 'r') as f:
-    js_text = re.sub("\s*[\r\n]\s*", "", f.read())
+index_text = None
+if OPTIONS['index_max_depth'] > 0:
+    with open(f"{SCRIPT_DIR}/index.js", 'r') as f:
+        index_text = re.sub("\s*[\r\n]\s*", "", f.read())
+        index_text = f"<script type=\"text/javascript\">var indexMaxDepth = {OPTIONS['index_max_depth']}; {index_text}</script>"
     
 header_text = ""
 if OPTIONS['header']:
@@ -106,8 +112,9 @@ footer_text = ""
 if OPTIONS['footer']:
     with open(OPTIONS['footer'], 'r') as f:
         footer_text = f.read()
-    
-html = markdown.markdown(md_text)
+
+# extensions see https://python-markdown.github.io/extensions
+html = markdown.markdown(md_text, extensions=['markdown.extensions.tables'])
 
 if OPTIONS['enable_image_base64']:
     for img in re.findall("<img.*?src.*?=.*?('|\")(.*?)\\1.*?>", html):
@@ -131,11 +138,9 @@ output_text = f"""<!DOCTYPE html>
     <head>
         <meta charset="UTF-8"/>
         <title>{OPTIONS['title']}</title>
-		<style type="text/css">{theme_text}</style>
-        <script type="text/javascript">{jquery_text}</script>
-        <script type="text/javascript">{js_text}</script>
+		<style type="text/css">{theme_text}</style>{index_text if not index_text is None else ""}
     </head>
-    <body>{header_text}<div style="width:1080px; margin:0 auto;">{html}</div>{footer_text}</body>
+    <body>{header_text}<div id="content" style="width:1080px; margin:0 auto;">{html}</div>{footer_text}</body>
 </html>"""
 
 with open(OPTIONS['output'], 'w') as f:
