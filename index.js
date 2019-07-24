@@ -31,3 +31,11 @@ window.onload = function() {
     
     document.body.appendChild(indexEl);
 };
+
+window.onbeforeprint = function() {
+    document.querySelector('.index').style.display = 'none';
+};
+
+window.onafterprint = function() {
+    document.querySelector('.index').style.display = 'block';
+};

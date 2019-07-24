@@ -140,7 +140,7 @@ output_text = f"""<!DOCTYPE html>
         <title>{OPTIONS['title']}</title>
 		<style type="text/css">{theme_text}</style>{index_text if not index_text is None else ""}
     </head>
-    <body>{header_text}<div id="content" style="width:1080px; margin:0 auto;">{html}</div>{footer_text}</body>
+    <body>{header_text}<div id="content">{html}</div>{footer_text}</body>
 </html>"""
 
 with open(OPTIONS['output'], 'w') as f:

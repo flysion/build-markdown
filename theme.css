@@ -2,6 +2,15 @@
     font-family:"微软雅黑",
 }
 
+#content {
+    width:800px;
+    margin:0 auto;
+}
+
+img {
+    max-width: 800px;
+}
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -39,6 +48,7 @@ code {
     background-color: #EFEFEF;
     border-radius: 3px;
     padding: 2px;
+    border: 1px solid #DDD;
 }
 
 a {

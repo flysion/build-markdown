@@ -10,8 +10,8 @@
 ## 使用方法
 使用以下命令查看使用方法：
 
-	> python main.py --help
-    using: python main.py [options] [arg]
+	> python md2html.py --help
+    using: python md2html.py [options] [arg]
 	 -h, --help            : 显示使用帮助
      -t, --title           : 生成的HTML文档的title
      -o, --output          : 生成的HTML文档的保存位置
