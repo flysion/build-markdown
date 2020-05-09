@@ -41,6 +41,8 @@ function hTree(el) {
 
 function contentIndex(el, tree, pNo = '', depth = 0)
 {
+    if(depth + 1 > maxIndexDepth) return;
+    
     for(var i = 0; i < tree.length; i++) {
         var node = tree[i];
         

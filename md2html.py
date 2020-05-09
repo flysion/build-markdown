@@ -24,7 +24,7 @@ def usage():
     print("     --header          : 在正文之前（<body>标签后边）加入html内容")
     print("     --footer          : 在正文之后（</body>标签前边）加入html内容")
     print("     --image-base64    : 将图片转换成base64")
-    print("     --index-max-depth : 将h1...h9标签编排成树状索引显示在页面的右侧，设置索引的最大深度，默认为0（不启用索引）")
+    print("     --max-index-depth : 将h1...h9标签编排成树状索引显示在页面的右侧，设置索引的最大深度，默认为0（不启用索引）")
     print(" -D foo=bar            : 定义变量，替换markdown文档中的“%foo%”字样")
     print(" arg                   : 要转换的markdown文件")
     
@@ -50,10 +50,10 @@ OPTIONS = {
     "enable_image_base64": False,
     "header": "",
     "footer": "",
-    "index_max_depth": 0,
+    "max_index_depth": 0,
 }
 
-opts, args = getopt.getopt(sys.argv[1:], "hD:t:o:", ["help", "title=", "output=", "theme=", "theme=", "header=", "footer=", "image-base64", "index-max-depth="])
+opts, args = getopt.getopt(sys.argv[1:], "hD:t:o:", ["help", "title=", "output=", "theme=", "theme=", "header=", "footer=", "image-base64", "max-index-depth="])
 if len(args) == 0:
     usage() ; quit()
 
@@ -73,8 +73,8 @@ for k,v in opts:
         OPTIONS['footer'] = v
     elif k == '--image-base64':
         OPTIONS['enable_image_base64'] = True
-    elif k == '--index-max-depth':
-        OPTIONS['index_max_depth'] = int(v);
+    elif k == '--max-index-depth':
+        OPTIONS['max_index_depth'] = int(v);
     elif k == '--help' or k == '-h':
         usage() ; quit()
 
@@ -98,10 +98,10 @@ with open(OPTIONS['theme'], 'r') as f:
     theme_text = re.sub("\s*[\r\n]\s*", "", f.read())
 
 index_text = None
-if OPTIONS['index_max_depth'] > 0:
+if OPTIONS['max_index_depth'] > 0:
     with open(f"{SCRIPT_DIR}/index.js", 'r') as f:
         index_text = re.sub("\s*[\r\n]\s*", "", f.read())
-        index_text = f"<script type=\"text/javascript\">var indexMaxDepth = {OPTIONS['index_max_depth']}; {index_text}</script>"
+        index_text = f"<script type=\"text/javascript\">var maxIndexDepth = {OPTIONS['max_index_depth']}; {index_text}</script>"
     
 header_text = ""
 if OPTIONS['header']:
