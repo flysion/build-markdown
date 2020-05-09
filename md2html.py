@@ -56,7 +56,7 @@ OPTIONS = {
 opts, args = getopt.getopt(sys.argv[1:], "hD:t:o:", ["help", "title=", "output=", "theme=", "theme=", "header=", "footer=", "image-base64", "index-max-depth="])
 if len(args) == 0:
     usage() ; quit()
-    
+
 for k,v in opts:
     if k == '-D':
         var = v.split("=", 1)
@@ -138,9 +138,11 @@ output_text = f"""<!DOCTYPE html>
     <head>
         <meta charset="UTF-8"/>
         <title>{OPTIONS['title']}</title>
-		<style type="text/css">{theme_text}</style>{index_text if not index_text is None else ""}
     </head>
-    <body>{header_text}<div id="content">{html}</div>{footer_text}</body>
+    <body>
+    <style type="text/css">{theme_text}</style>{index_text if not index_text is None else ""}
+    {header_text}<div id="content">{html}</div>{footer_text}
+    </body>
 </html>"""
 
 with open(OPTIONS['output'], 'w') as f:

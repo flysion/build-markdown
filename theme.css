@@ -1,10 +1,21 @@
-*{
-    font-family:"微软雅黑",
+* {
+    line-height:150%;
 }
 
 #content {
     width:800px;
     margin:0 auto;
+}
+
+@media screen and (max-width:1300px) {
+    #content {
+        width: auto;
+        font-size:1rem;
+    }
+    
+    .index {
+        display:none;
+    }
 }
 
 img {
@@ -34,21 +45,24 @@ h2 {
 }
 
 pre { 
-    background-color:#EFEFEF; 
+    background-color:#DEDEDE; 
     padding:10px;
-    border:1px solid #ECECEC;
-    font-family: Consolas;
+    margin: 5px;
 }
 
 pre code {
     background-color:transparent;
+    border:0;
+    font-family: Consolas, monospace;
 }
 
 code {
-    background-color: #EFEFEF;
+    font-family: inherit;
+    background-color: #DEDEDE;
     border-radius: 3px;
-    padding: 2px;
-    border: 1px solid #DDD;
+    padding: 0 3px;
+    margin: 0 2px;
+    border: 1px solid #CCCCCC;
 }
 
 a {
@@ -64,20 +78,29 @@ a {
     right: 10px;
 }
 
-.index-1 {
+.index-no {
+    color: gray;
+    font-style: italic;
+}
+
+.index-0 {
     padding-left: 0px;
 }
 
-.index-2 {
+.index-1 {
     padding-left: 20px;
 }
 
-.index-3 {
+.index-2 {
     padding-left: 40px;
 }
 
-.index-4 {
+.index-3 {
     padding-left: 60px;
+}
+
+.index-4 {
+    padding-left: 80px;
 }
 
 .index-5 {
@@ -85,9 +108,5 @@ a {
 }
 
 .index-6 {
-    padding-left: 80px;
-}
-
-.index-7 {
     padding-left: 80px;
 }
